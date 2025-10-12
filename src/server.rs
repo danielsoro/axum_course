@@ -2,7 +2,7 @@ use axum::Router;
 use log::debug;
 use tokio::net::TcpListener;
 
-use crate::routes;
+use crate::hello;
 
 pub async fn run() {
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "3030".into());
@@ -11,7 +11,7 @@ pub async fn run() {
 
     debug!("listening on {}", listener.local_addr().unwrap());
 
-    let routes = Router::new().merge(routes::hello::routes());
+    let routes = Router::new().merge(hello::routes());
 
     axum::serve(listener, routes).await.unwrap()
 }

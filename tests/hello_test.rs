@@ -2,14 +2,14 @@ use axum::{
     body::{Body, Bytes},
     http::{self, Request, StatusCode},
 };
-use axum_course::routes;
+use axum_course::hello;
 use http_body_util::BodyExt;
 use serde_json;
 use tower::ServiceExt;
 
 #[tokio::test]
 async fn hello() {
-    let hello_routes = routes::hello::routes();
+    let hello_routes = hello::routes();
     let response = hello_routes
         .oneshot(
             Request::builder()
@@ -28,7 +28,7 @@ async fn hello() {
 
 #[tokio::test]
 async fn hello_json() {
-    let hello_routes = routes::hello::routes();
+    let hello_routes = hello::routes();
     let response = hello_routes
         .oneshot(
             Request::builder()

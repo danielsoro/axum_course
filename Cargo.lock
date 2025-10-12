@@ -185,6 +185,7 @@ dependencies = [
  "http-body-util",
  "httpc-test",
  "log",
+ "serde_json",
  "tokio",
  "tower",
  "tower-http",

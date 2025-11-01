@@ -1,8 +1,15 @@
+use std::sync::Arc;
+
 use axum::Router;
 use log::debug;
 use tokio::net::TcpListener;
 
 use crate::hello;
+
+#[derive(Clone)]
+pub struct AppState {
+    pub message: &'static str,
+}
 
 pub async fn run() {
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "3030".into());
@@ -11,7 +18,10 @@ pub async fn run() {
 
     debug!("listening on {}", listener.local_addr().unwrap());
 
-    let routes = Router::new().merge(hello::routes());
+    let app_sate = Arc::new(AppState {
+        message: "My State",
+    });
+    let routes = Router::new().merge(hello::routes(app_sate.clone()));
 
     axum::serve(listener, routes).await.unwrap()
 }

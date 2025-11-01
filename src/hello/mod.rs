@@ -1,23 +1,32 @@
-use std::collections::HashMap;
-use axum::{Json, Router};
+use axum::extract::{Path, State};
 use axum::response::{Html, IntoResponse};
 use axum::routing::get;
+use axum::{Json, Router};
 use log::info;
+use std::collections::HashMap;
+use std::sync::Arc;
+
+use crate::server::AppState;
 
 async fn hello() -> impl IntoResponse {
     info!("Calling hello route");
     Html("<strong>Hello World</strong>")
 }
 
-async fn hello_json() -> impl IntoResponse {
+async fn hello_json(
+    State(app_state): State<Arc<AppState>>,
+    Path(name): Path<String>,
+) -> impl IntoResponse {
     info!("Calling json route");
     Json(HashMap::from([
-        ("message", "Hello World".to_string()),
+        ("message", format!("Hello {}", name)),
         ("date", chrono::Utc::now().to_rfc3339()),
+        ("state", app_state.message.to_string()),
     ]))
 }
-pub fn routes() -> Router {
+pub fn routes(app_state: Arc<AppState>) -> Router {
     Router::new()
         .route("/hello", get(hello))
-        .route("/json", get(hello_json))
+        .route("/hello/:name", get(hello_json))
+        .with_state(app_state)
 }

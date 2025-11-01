@@ -27,6 +27,6 @@ async fn hello_json(
 pub fn routes(app_state: Arc<AppState>) -> Router {
     Router::new()
         .route("/hello", get(hello))
-        .route("/hello/:name", get(hello_json))
+        .route("/hello/{name}", get(hello_json))
         .with_state(app_state)
 }

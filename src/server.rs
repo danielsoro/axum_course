@@ -6,7 +6,6 @@ use tokio::net::TcpListener;
 
 use crate::hello;
 
-#[derive(Clone)]
 pub struct AppState {
     pub message: &'static str,
 }

@@ -4,7 +4,7 @@ use axum::{
     body::{Body, Bytes},
     http::{self, Request, StatusCode},
 };
-use axum_course::{hello, server::AppState};
+use axum_course::{infra::hello, server::AppState};
 use http_body_util::BodyExt;
 use serde_json;
 use tower::ServiceExt;

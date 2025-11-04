@@ -4,7 +4,7 @@ use axum::Router;
 use log::debug;
 use tokio::net::TcpListener;
 
-use crate::hello;
+use crate::infra::hello;
 
 pub struct AppState {
     pub message: &'static str,
